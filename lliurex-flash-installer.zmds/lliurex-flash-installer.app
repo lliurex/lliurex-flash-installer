@@ -9,6 +9,6 @@ Comment[ca_ES]=Instal·lador de l'Adobe Flash Plugin
 Icon=lliurex-flash-installer
 Category=Software
 ScriptPath=lliurex-flash-installer.zmd
-Using=pe
+Using=pkexec
 Service=True
 Groups=adm;admins
