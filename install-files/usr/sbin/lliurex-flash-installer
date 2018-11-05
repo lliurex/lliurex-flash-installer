@@ -13,14 +13,14 @@ import signal
 signal.signal(signal.SIGINT, signal.SIG_DFL)
 
 import gettext
-gettext.textdomain('zero-lliurex-flash')
+gettext.textdomain('lliurex-flash-installer')
 _ = gettext.gettext
 
 class FlashInstaller:
 	
 	def __init__(self):
 		
-		self.canonical_ppa="deb http://archive.canonical.com/ubuntu xenial partner"
+		self.canonical_ppa="deb http://archive.canonical.com/ubuntu bionic partner"
 		self.packages_to_install="adobe-flashplugin"
 		self.load_gui("/usr/share/lliurex-flash-installer/lliurex-flash-installer.ui")
 		
@@ -30,6 +30,7 @@ class FlashInstaller:
 	def load_gui(self,ui_file):
 		
 		builder=Gtk.Builder()
+		builder.set_translation_domain('lliurex-flash-installer')
 		builder.add_from_file(ui_file)
 		self.window=builder.get_object("main_window")
 		self.accept_button=builder.get_object("accept_button")
