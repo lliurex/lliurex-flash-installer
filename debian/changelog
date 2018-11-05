@@ -1,3 +1,9 @@
+lliurex-flash-installer (0.12) bionic; urgency=medium
+
+  * Initial release for bionic
+
+ -- Juan Ramon Pelegrina <juapesai@hotmail.com>  Mon, 05 Nov 2018 12:48:05 +0100
+
 lliurex-flash-installer (0.2) xenial; urgency=high
 
   * Added missing -y in apt install
