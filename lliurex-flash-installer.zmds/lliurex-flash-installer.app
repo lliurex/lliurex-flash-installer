@@ -1,0 +1,14 @@
+Name=lliurex-flash-installer
+Name[es]=Instalador de Adobe Flash Plugin
+Name[qcv]=Instal·lador de l'Adobe Flash Plugin
+Name[ca_ES]=Instal·lador de l'Adobe Flash Plugin
+Comment=Adobe Flash Plugin
+Comment[es]=Instalador de Adobe Flash Plugin
+Comment[qcv]=Instal·lador de l'Adobe Flash Plugin
+Comment[ca_ES]=Instal·lador de l'Adobe Flash Plugin
+Icon=lliurex-flash-installer
+Category=Software
+ScriptPath=lliurex-flash-installer.zmd
+Using=pe
+Service=True
+Groups=adm;admins

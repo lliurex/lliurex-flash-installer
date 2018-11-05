@@ -1,0 +1,5 @@
+#!/bin/bash
+
+/usr/sbin/lliurex-flash-installer
+
+exit 0

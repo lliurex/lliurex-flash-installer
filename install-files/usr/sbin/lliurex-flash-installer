@@ -1,0 +1,127 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*
+ 
+import os
+import subprocess
+import threading
+
+import gi
+gi.require_version('Gtk', '3.0')
+from gi.repository import Gtk, GObject, GLib
+	
+import signal
+signal.signal(signal.SIGINT, signal.SIG_DFL)
+
+import gettext
+gettext.textdomain('zero-lliurex-flash')
+_ = gettext.gettext
+
+class FlashInstaller:
+	
+	def __init__(self):
+		
+		self.canonical_ppa="deb http://archive.canonical.com/ubuntu xenial partner"
+		self.packages_to_install="adobe-flashplugin"
+		self.load_gui("/usr/share/lliurex-flash-installer/lliurex-flash-installer.ui")
+		
+	#def __init__
+	
+	
+	def load_gui(self,ui_file):
+		
+		builder=Gtk.Builder()
+		builder.add_from_file(ui_file)
+		self.window=builder.get_object("main_window")
+		self.accept_button=builder.get_object("accept_button")
+		self.cancel_button=builder.get_object("cancel_button")
+		self.close_button=builder.get_object("close_button")
+		
+		self.question_box=builder.get_object("question_box")
+		self.pbar=builder.get_object("progressbar")
+		self.msg_label=builder.get_object("msg_label")
+		
+		self.connect_signals()
+		self.window.show()
+		
+	#def load_gui
+	
+	
+	def connect_signals(self):
+		
+		self.window.connect("destroy",Gtk.main_quit)
+		self.accept_button.connect("clicked",self.install)
+		self.cancel_button.connect("clicked",Gtk.main_quit)
+		self.close_button.connect("clicked",Gtk.main_quit)
+		
+	#def connect_signals
+	
+	
+	def install(self,button):
+
+		self.question_box.hide()
+		self.pbar.show()
+		self.close_button.set_sensitive(False)
+		self.thread=threading.Thread(target=self.install_thread)
+		self.thread.daemon=True
+		self.thread.start()
+		
+		GLib.timeout_add(200,self.pulsating)
+		
+	#def install
+	
+	
+	def install_thread(self):
+		
+		source_file="/etc/apt/sources.list.d/canonical.list"
+		
+		f=open(source_file,"w")
+		f.write(self.canonical_ppa+"\n")
+		f.close()
+		
+		self.ret=os.system("apt-get update; apt-get install -y --reinstall %s"%self.packages_to_install)
+		
+		if self.ret==0:
+			self.set_configured()
+		
+	#def install_thread
+	
+	
+	def pulsating(self):
+		
+		self.pbar.pulse()
+		
+		if not self.thread.is_alive():
+			
+			if self.ret==0:
+				self.pbar.set_fraction(1)
+				self.pbar.set_text("Installed")
+			
+			self.close_button.set_sensitive(True)
+		
+		return self.thread.is_alive()
+		
+	#def pulsating
+	
+	def set_configured(self):
+		
+		os.system("zero-center set-configured lliurex-flash-installer")
+		
+	#def set_configured
+	
+	
+	def start(self):
+		
+		GObject.threads_init()
+		Gtk.main()
+		
+	#def start
+	
+	
+#class FlashInstaller
+
+
+if __name__=="__main__":
+	
+	fi=FlashInstaller()
+	fi.start()
+	
