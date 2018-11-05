@@ -2,8 +2,8 @@ Source: lliurex-flash-installer
 Section: utils
 Priority: extra
 Maintainer: Hector Garcia Huerta <hectorgh@gmail.com>
-Build-Depends: debhelper (>=9), llxcfg-dev, zero-dev, llxsrchelper
-Standards-Version: 3.9.7
+Build-Depends: debhelper (>=10),zero-dev,llxsrchelper,python3-poinstaller
+Standards-Version: 4.1.2
 Homepage: http://lliurex.net
 
 Package: lliurex-flash-installer
